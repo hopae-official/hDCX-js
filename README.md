@@ -25,6 +25,8 @@ In this example, you can easily
 - present credentials
 - validate credentials
 
+![img](/assets/wallet.png)
+
 ## Interoperability
 
 We are interoperable with
