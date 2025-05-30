@@ -15,14 +15,26 @@ With just simple interfaces, you can significantly simplify the credential manag
 ## Quick Start
 
 ```ts
-// wallet Initialization
+// Initialize wallet
 const wallet = new Wallet();
 
-// Request Credentials
-const credentials = await wallet.request();
+// Request credentials issuance
+const session = await wallet.requestIssue(credentialOfferUri);
 
-// Save Credentials
-await wallet.save(credentials);
+// Check issuance status: pending | ready | denied | issued | expired
+const status = await session.getStatus();
+
+// Get credentials when status is ready
+if (status === "ready") {
+  const credentials = await session.getCredentials({
+    credentialType: "UniversityDegreeCredential",
+    txCode: "1234",
+    preAuthorizedCode: "Xyz123",
+  });
+
+  // Save Credentials
+  await wallet.save(credentials);
+}
 
 // Load Credentials
 const loadedCredentials = await wallet.load();
