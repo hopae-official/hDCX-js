@@ -1,0 +1,44 @@
+{
+  "name": "hdcx",
+  "version": "0.0.1",
+  "description": "The Simplest Wallet SDK in Typescript",
+  "scripts": {
+    "build": "lerna run build --stream",
+    "lint": "biome lint ./packages",
+    "format": "biome format . --write",
+    "test": "vitest run --coverage.enabled=true --coverage.include=packages/*",
+    "test:watch": "vitest",
+    "clean": "lerna clean -y",
+    "publish:latest": "lerna publish --no-private --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest",
+    "publish:next": "lerna publish --no-private --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes",
+    "version:release": "lerna version --no-private",
+    "publish:release": "lerna publish --yes --no-private",
+    "start:doc": "lerna run start:doc",
+    "build:doc": "lerna run build:doc"
+  },
+  "keywords": ["sd-jwt", "vcdm", "jwt"],
+  "author": "Hopae Inc. <developers@hopae.com>",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.6.0",
+    "@types/node": "^20.10.2",
+    "@vitest/coverage-v8": "^1.2.2",
+    "jose": "^5.2.2",
+    "jsdom": "^24.0.0",
+    "lerna": "^8.1.2",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.0.2",
+    "typescript": "^5.7.0",
+    "vite": "^5.2.14",
+    "vitest": "^1.2.2",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0"
+  }
+}

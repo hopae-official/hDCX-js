@@ -1,0 +1,30 @@
+{
+  "name": "@hdcx/expo-secure-store",
+  "version": "0.0.1",
+  "description": "Secure data storage implementation for mobile applications using Expo's SecureStore API",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf **/dist && tsup",
+    "lint": "biome lint ./src",
+    "test": "pnpm run test:node && pnpm run test:browser && pnpm run test:cov",
+    "test:node": "vitest run ./src/test/*.spec.ts",
+    "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
+    "test:cov": "vitest run --coverage"
+  },
+  "tsup": {
+    "entry": ["./src/index.ts"],
+    "sourceMap": true,
+    "splitting": false,
+    "clean": true,
+    "dts": true,
+    "format": ["cjs", "esm"]
+  }
+}
