@@ -8,22 +8,24 @@ _Effortless credential handling. Fully standards-compliant._
 - Fully compliant: aligns with modern standards like SD-JWT, W3C VC, and eIDAS 2.0
 
 ### Supported Standards
-| eIDAS 2.0 | W3C VC   | SD-JWT | OIDC for VC | ISO/IEC 18013 |
-|-----------|----------|--------|--------------|----------------|
-| ARF 2.0✅ | VCDM 2.0✅/ 1.4✅/ 1.1✅ | 1.10✅| 1.0✅| Part 5 ✅/ Part 7  |
 
+| eIDAS 2.0  | W3C VCDM                    | SD-JWT VC   | OIDC4VCI    | OIDC4VP     | ISO/IEC 18013        |
+| ---------- | --------------------------- | ----------- | ----------- | ----------- | -------------------- |
+| ARF 2.0 ✅ | VCDM 2.0 ✅/ 1.4 ✅/ 1.1 ✅ | draft 09 ✅ | draft 15 ✅ | draft 28 ✅ | Part 5 ✅/ Part 7 ✅ |
 
-  
 <!-- View full documentation on [here]() -->
 
 ## Quick Start
 
 ### Wallet initialization
+
 ```ts
 // Initialize wallet
 const wallet = new Wallet();
 ```
+
 ### Recieve and save credentials
+
 ```ts
 // You get the url or data for issued credentials
 const issuePayload = await scanQRCode(); // or deeplink or NFC/BLE
@@ -32,12 +34,14 @@ const issuePayload = await scanQRCode(); // or deeplink or NFC/BLE
 const credentials = await wallet.receive(issuePayload);
 
 // Then you can save credentials
-await wallet.save(credentials)
+await wallet.save(credentials);
 ```
+
 ### Load and present credentials
+
 ```ts
 // Load credentials with query
-const credentials = await wallet.load(['name', 'age']);
+const credentials = await wallet.load(["name", "age"]);
 
 // Present Credentials
 const presentation = await wallet.present(credentials);
