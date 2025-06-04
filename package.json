@@ -1,22 +1,22 @@
 {
-  "name": "hdcx",
+  "name": "@hdcx/wallet-core",
   "version": "0.0.1",
   "description": "The Simplest Wallet SDK in Typescript",
   "scripts": {
-    "build": "lerna run build --stream",
+    "build": "rm -rf **/dist && tsup",
+    "start": "npm run build && node dist/index.js",
     "lint": "biome lint ./packages",
     "format": "biome format . --write",
-    "test": "vitest run --coverage.enabled=true --coverage.include=packages/*",
-    "test:watch": "vitest",
-    "clean": "lerna clean -y",
-    "publish:latest": "lerna publish --no-private --conventional-commits --include-merged-tags --create-release github --yes --dist-tag latest",
-    "publish:next": "lerna publish --no-private --conventional-prerelease --force-publish --canary --no-git-tag-version --include-merged-tags --preid next --pre-dist-tag next --yes",
-    "version:release": "lerna version --no-private",
-    "publish:release": "lerna publish --yes --no-private",
-    "start:doc": "lerna run start:doc",
-    "build:doc": "lerna run build:doc"
+    "test": "pnpm run test:node && pnpm run test:browser && pnpm run test:cov",
+    "test:node": "vitest run ./src/test/*.spec.ts",
+    "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
+    "test:cov": "vitest run --coverage"
   },
-  "keywords": ["sd-jwt", "vcdm", "jwt"],
+  "keywords": [
+    "sd-jwt",
+    "vcdm",
+    "jwt"
+  ],
   "author": "Hopae Inc. <developers@hopae.com>",
   "license": "Apache-2.0",
   "engines": {
@@ -28,7 +28,6 @@
     "@vitest/coverage-v8": "^1.2.2",
     "jose": "^5.2.2",
     "jsdom": "^24.0.0",
-    "lerna": "^8.1.2",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.2",
     "typescript": "^5.7.0",
@@ -40,5 +39,18 @@
     "eslint-plugin-prettier": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0"
+  },
+  "tsup": {
+    "entry": [
+      "./src/index.ts"
+    ],
+    "sourceMap": true,
+    "splitting": false,
+    "clean": true,
+    "dts": true,
+    "format": [
+      "cjs",
+      "esm"
+    ]
   }
 }

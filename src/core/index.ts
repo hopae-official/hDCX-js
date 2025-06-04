@@ -1,0 +1,3 @@
+class WalletSDK {}
+
+export { WalletSDK };
