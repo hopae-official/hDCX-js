@@ -15,6 +15,14 @@ _Effortless credential handling. Fully standards-compliant._
 
 <!-- View full documentation on [here]() -->
 
+### Supported Platforms
+
+| Platform           | Status |
+| ------------------ | ------ |
+| Web                | ✅     |
+| React Native(Expo) | ✅     |
+| Node.js            | ✅     |
+
 ## Quick Start
 
 ### Wallet initialization
