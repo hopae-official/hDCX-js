@@ -26,6 +26,9 @@ importers:
       '@sd-jwt/utils':
         specifier: ^0.10.0
         version: 0.10.0
+      '@vdcs/dcql':
+        specifier: ^0.1.4
+        version: 0.1.4
       '@vdcs/jwt':
         specifier: ^0.1.4
         version: 0.1.4
@@ -1504,6 +1507,10 @@ packages:
     resolution: {integrity: sha512-EEmtFu8JTuwsInqMakhLq+U3qN8ZMd5V3pX44q0EqD2imqTDsa8ikZqJ1schVrN8HljOdN+C08cwZ1/r5uIgLw==}
     peerDependencies:
       '@urql/core': ^5.0.0
+
+  '@vdcs/dcql@0.1.4':
+    resolution: {integrity: sha512-D96bR7ArNRtuBT1jwlzNAsj8+QIvUfOzWB5eztYXrgC4UW1V5Hry2thw53X/eMRo8TJcz3e3LKG1Oujcdbd5iw==}
+    engines: {node: '>=16'}
 
   '@vdcs/jwt@0.1.4':
     resolution: {integrity: sha512-xRzTturDU6Aj7isotiBuuGwoubsXkJ3ouorU+h7cCWwTpEjymZR9cH1xQbSpTvaZ7UuYJCKLZ+aTwvcDjy6G3Q==}
@@ -5669,6 +5676,8 @@ snapshots:
     dependencies:
       '@urql/core': 5.1.1
       wonka: 6.3.5
+
+  '@vdcs/dcql@0.1.4': {}
 
   '@vdcs/jwt@0.1.4':
     dependencies:
