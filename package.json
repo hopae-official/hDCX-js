@@ -63,6 +63,9 @@
     ]
   },
   "dependencies": {
+    "@vdcs/jwt": "^0.1.4",
+    "@vdcs/oid4vci": "^0.1.4",
+    "@vdcs/oid4vci-client": "^0.1.4",
     "uuid": "^11.1.0"
   }
 }
