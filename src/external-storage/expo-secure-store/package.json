@@ -1,0 +1,35 @@
+{
+  "name": "@hdcx/expo-secure-store",
+  "version": "0.0.1",
+  "description": "Expo Secure Store implementation for wallet storage",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "author": "Hopae Inc. <developers@hopae.com>",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "rm -rf **/dist && tsup",
+    "test": "pnpm run test:node && pnpm run test:browser && pnpm run test:cov",
+    "test:node": "vitest run ./src/test/*.spec.ts",
+    "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
+    "test:cov": "vitest run --coverage",
+    "start": "npm run build && node dist/index.js"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.7.0",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "expo-secure-store": "^14.2.3"
+  }
+}

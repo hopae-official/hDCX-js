@@ -11,6 +11,11 @@
       "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist",
+    "src/**/*.ts",
+    "!src/external-storage/**"
+  ],
   "scripts": {
     "build": "rm -rf **/dist && tsup",
     "start": "npm run build && node dist/index.js",
