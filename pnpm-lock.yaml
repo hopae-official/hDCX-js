@@ -14,6 +14,9 @@ importers:
       '@noble/hashes':
         specifier: ^1.8.0
         version: 1.8.0
+      '@sd-jwt/decode':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@sd-jwt/hash':
         specifier: ^0.10.0
         version: 0.10.0
