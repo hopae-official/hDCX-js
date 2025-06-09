@@ -11,7 +11,11 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist", "src/**/*.ts", "!src/external-storage/**"],
+  "files": [
+    "dist",
+    "src/**/*.ts",
+    "!src/external-storage/**"
+  ],
   "scripts": {
     "build": "rm -rf **/dist && tsup",
     "start": "npm run build && node dist/index.js",
@@ -22,7 +26,11 @@
     "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
     "test:cov": "vitest run --coverage"
   },
-  "keywords": ["sd-jwt", "vcdm", "jwt"],
+  "keywords": [
+    "sd-jwt",
+    "vcdm",
+    "jwt"
+  ],
   "author": "Hopae Inc. <developers@hopae.com>",
   "license": "Apache-2.0",
   "engines": {
@@ -47,12 +55,17 @@
     "vitest": "^1.2.2"
   },
   "tsup": {
-    "entry": ["./src/index.ts"],
+    "entry": [
+      "./src/index.ts"
+    ],
     "sourceMap": true,
     "splitting": false,
     "clean": true,
     "dts": true,
-    "format": ["cjs", "esm"]
+    "format": [
+      "cjs",
+      "esm"
+    ]
   },
   "dependencies": {
     "@noble/curves": "^1.9.2",
