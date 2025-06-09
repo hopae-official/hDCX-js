@@ -8,6 +8,24 @@ importers:
 
   .:
     dependencies:
+      '@noble/curves':
+        specifier: ^1.9.2
+        version: 1.9.2
+      '@noble/hashes':
+        specifier: ^1.8.0
+        version: 1.8.0
+      '@sd-jwt/hash':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@sd-jwt/present':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@sd-jwt/types':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@sd-jwt/utils':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@vdcs/jwt':
         specifier: ^0.1.4
         version: 0.1.4
@@ -671,8 +689,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@sd-jwt/decode@0.10.0':
+    resolution: {integrity: sha512-djNWMWpF1kUVh1fM/lRrmoQtTaJy8J0mS0bu96XPL5Jea5ov4klxOtSvuYmPFFcqLpxyrLOIwcbqmVQ20Mdzpg==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/hash@0.10.0':
     resolution: {integrity: sha512-IAqPAEr1bCoGCqIYYIjaBH6MqFxsJIpSufmOxHIy31I/TtM+xJJHJjK3JPDAa72KewZcy4pcXAg8nK5ggI764w==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/present@0.10.0':
+    resolution: {integrity: sha512-ITkyXAfdPOnfWlPgGkHpN1JxaOCC/A8Oid0CUY25AsGuwkSCw9rd+B0nwG5KBwmf1RaOG75FkvwmSCHXBlHgUg==}
     engines: {node: '>=18'}
 
   '@sd-jwt/types@0.10.0':
@@ -2401,9 +2427,20 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
+  '@sd-jwt/decode@0.10.0':
+    dependencies:
+      '@sd-jwt/types': 0.10.0
+      '@sd-jwt/utils': 0.10.0
+
   '@sd-jwt/hash@0.10.0':
     dependencies:
       '@noble/hashes': 1.0.0
+      '@sd-jwt/utils': 0.10.0
+
+  '@sd-jwt/present@0.10.0':
+    dependencies:
+      '@sd-jwt/decode': 0.10.0
+      '@sd-jwt/types': 0.10.0
       '@sd-jwt/utils': 0.10.0
 
   '@sd-jwt/types@0.10.0': {}

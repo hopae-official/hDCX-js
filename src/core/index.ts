@@ -4,6 +4,9 @@ import { ICredentialStore, IWalletStorage } from '../types/storage';
 import { Oid4VciClient } from '@vdcs/oid4vci-client';
 import { type EcPrivateJwk } from '@vdcs/jwt';
 import { type CredentialResponse } from '@vdcs/oid4vci';
+import { type PresentationFrame } from '@sd-jwt/types';
+import { present } from '@sd-jwt/present';
+import { hash } from '../hash';
 
 class WalletSDK {
   credentialStore: ICredentialStore;
@@ -31,6 +34,13 @@ class WalletSDK {
     });
 
     return credential;
+  }
+
+  async present<T extends Record<string, unknown>>(
+    credential: string,
+    presentationFrame: PresentationFrame<T>,
+  ): Promise<string> {
+    return present(credential, presentationFrame, hash);
   }
 }
 
