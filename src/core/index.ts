@@ -22,7 +22,7 @@ class WalletSDK {
     this.jwk = jwk;
   }
 
-  async request(offerUri: string): Promise<CredentialResponse> {
+  async receive(offerUri: string): Promise<CredentialResponse> {
     const client = await Oid4VciClient.fromOfferUrl(offerUri);
     const credential = await client.getCredential({
       credential_configuration_id:
