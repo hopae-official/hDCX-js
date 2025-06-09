@@ -1,12 +1,12 @@
 import { rawDCQL } from '../types/credential';
 
 import { v4 as uuidv4 } from 'uuid';
-import { ICredentialStore, IWalletStorage } from '../types/storage';
+import { IWalletStorage } from '../types/storage';
 import { DCQL } from '@vdcs/dcql';
 import { Format } from '@vdcs/oid4vci';
 import { decodeSDJWT } from '../utils';
 
-class CredentialStore implements ICredentialStore {
+class CredentialStore {
   constructor(private storage: IWalletStorage) {}
 
   private buildKey(id: string) {

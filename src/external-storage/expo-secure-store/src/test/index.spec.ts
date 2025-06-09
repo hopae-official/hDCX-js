@@ -34,9 +34,12 @@ describe('ExpoSecureStore', () => {
     it('should store value and update key index', async () => {
       vi.mocked(SecureStore.getItemAsync).mockResolvedValue('[]');
       await store.setItem('key', 'value');
-      
+
       expect(SecureStore.setItemAsync).toHaveBeenCalledWith('key', 'value');
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('credential_keys', '["key"]');
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
+        'credential_keys',
+        '["key"]',
+      );
     });
   });
 
@@ -44,9 +47,12 @@ describe('ExpoSecureStore', () => {
     it('should remove item and update key index', async () => {
       vi.mocked(SecureStore.getItemAsync).mockResolvedValue('["key"]');
       await store.removeItem('key');
-      
+
       expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('key');
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('credential_keys', '[]');
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
+        'credential_keys',
+        '[]',
+      );
     });
   });
 
@@ -54,10 +60,12 @@ describe('ExpoSecureStore', () => {
     it('should remove all items including key index', async () => {
       vi.mocked(SecureStore.getItemAsync).mockResolvedValue('["key1", "key2"]');
       await store.clear();
-      
+
       expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('key1');
       expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('key2');
-      expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('credential_keys');
+      expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith(
+        'credential_keys',
+      );
     });
   });
 

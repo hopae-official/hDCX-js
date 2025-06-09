@@ -1,6 +1,6 @@
 import CredentialStore from '../credentials/credential-store';
 import { InMemoryStorage } from '../storage';
-import { ICredentialStore, IWalletStorage } from '../types/storage';
+import { IWalletStorage } from '../types/storage';
 import { Oid4VciClient } from '@vdcs/oid4vci-client';
 import { type EcPrivateJwk } from '@vdcs/jwt';
 import { type CredentialResponse } from '@vdcs/oid4vci';
@@ -9,7 +9,7 @@ import { present } from '@sd-jwt/present';
 import { hash } from '../hash';
 
 class WalletSDK {
-  credentialStore: ICredentialStore;
+  credentialStore: CredentialStore;
   jwk: EcPrivateJwk;
 
   constructor({

@@ -8,16 +8,3 @@ export interface IWalletStorage {
   clear?(): Promise<void>;
   keys?(): Promise<string[]>;
 }
-
-export interface ICredentialStore {
-  saveCredential({
-    credential,
-    format,
-  }: {
-    credential: string;
-    format: Format;
-  }): Promise<void>;
-  getCredentialById(id: string): Promise<string | null>;
-  deleteCredential(id: string): Promise<void>;
-  listCredentials(filter?: rawDCQL): Promise<string[]>;
-}
