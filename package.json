@@ -21,11 +21,7 @@
     "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
     "test:cov": "vitest run --coverage"
   },
-  "keywords": [
-    "sd-jwt",
-    "vcdm",
-    "jwt"
-  ],
+  "keywords": ["sd-jwt", "vcdm", "jwt"],
   "author": "Hopae Inc. <developers@hopae.com>",
   "license": "Apache-2.0",
   "engines": {
@@ -50,17 +46,12 @@
     "vitest": "^1.2.2"
   },
   "tsup": {
-    "entry": [
-      "./src/index.ts"
-    ],
+    "entry": ["./src/index.ts"],
     "sourceMap": true,
     "splitting": false,
     "clean": true,
     "dts": true,
-    "format": [
-      "cjs",
-      "esm"
-    ]
+    "format": ["cjs", "esm"]
   },
   "dependencies": {
     "@noble/curves": "^1.9.2",
@@ -74,6 +65,7 @@
     "@vdcs/oid4vci-client": "^0.1.4",
     "@vdcs/dcql": "^0.1.4",
     "uuid": "^11.1.0",
-    "@sd-jwt/decode": "^0.10.0"
+    "@sd-jwt/decode": "^0.10.0",
+    "expo-secure-store": "^14.2.3"
   }
 }
