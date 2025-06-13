@@ -56,6 +56,7 @@
   "dependencies": {
     "@noble/curves": "^1.9.2",
     "@noble/hashes": "^1.8.0",
+    "@sd-jwt/decode": "^0.10.0",
     "@sd-jwt/hash": "^0.10.0",
     "@sd-jwt/core": "^0.10.0",
     "@sd-jwt/present": "^0.10.0",

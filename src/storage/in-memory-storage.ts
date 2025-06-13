@@ -1,4 +1,5 @@
 import { IWalletStorage } from '../types/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 class InMemoryStorage implements IWalletStorage {
   private store = new Map<string, string>();
@@ -21,6 +22,10 @@ class InMemoryStorage implements IWalletStorage {
 
   async keys() {
     return Array.from(this.store.keys());
+  }
+
+  generateUUID() {
+    return uuidv4();
   }
 }
 
