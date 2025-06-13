@@ -1,4 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
+import { IWalletStorage } from '../types/storage';
+import * as Crypto from 'expo-crypto';
 
 const KEY_INDEX = 'credential_keys';
 
@@ -9,8 +11,12 @@ class ExpoSecureStore implements IWalletStorage {
   }
 
   async setItem(key: string, value: string) {
-    await SecureStore.setItemAsync(key, value);
-    if (key !== KEY_INDEX) await this.addKeyToIndex(key);
+    try {
+      await SecureStore.setItemAsync(key, value);
+      if (key !== KEY_INDEX) await this.addKeyToIndex(key);
+    } catch (error) {
+      throw new Error(`Failed to set item: ${(error as Error).message}`);
+    }
   }
 
   async removeItem(key: string) {
@@ -49,15 +55,10 @@ class ExpoSecureStore implements IWalletStorage {
     const updated = keys.filter((k: string) => k !== key);
     await SecureStore.setItemAsync(KEY_INDEX, JSON.stringify(updated));
   }
+
+  generateUUID() {
+    return Crypto.randomUUID();
+  }
 }
 
 export { ExpoSecureStore };
-
-// @Todo: Types will be moved to a separate package after v0.1
-interface IWalletStorage {
-  getItem(key: string): Promise<string | null>;
-  setItem(key: string, value: string): Promise<void>;
-  removeItem(key: string): Promise<void>;
-  clear(): Promise<void>;
-  keys(): Promise<string[]>;
-}

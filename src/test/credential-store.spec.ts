@@ -25,7 +25,7 @@ describe('CredentialStore', () => {
 
       const keys = await storage.keys();
       expect(keys).toHaveLength(1);
-      expect(keys[0]).toMatch(/^credential:/);
+      expect(keys[0]).toMatch(/^credential./);
     });
   });
 
@@ -37,7 +37,7 @@ describe('CredentialStore', () => {
 
     it('should retrieve a saved credential', async () => {
       const credential = 'test-credential';
-      await storage.setItem('credential:test-id', JSON.stringify(credential));
+      await storage.setItem('credential.test-id', JSON.stringify(credential));
 
       const result = await credentialStore.getCredentialById('test-id');
       expect(result).toBe(credential);
@@ -47,7 +47,7 @@ describe('CredentialStore', () => {
   describe('deleteCredential', () => {
     it('should delete an existing credential', async () => {
       await storage.setItem(
-        'credential:test-id',
+        'credential.test-id',
         JSON.stringify('test-credential'),
       );
       await credentialStore.deleteCredential('test-id');

@@ -1,16 +1,17 @@
 import { rawDCQL } from '../types/credential';
 
-import { v4 as uuidv4 } from 'uuid';
 import { IWalletStorage } from '../types/storage';
 import { DCQL } from '@vdcs/dcql';
 import { Format } from '@vdcs/oid4vci';
 import { decodeSDJWT } from '../utils';
 
+const KEY_PREFIX = 'credential.';
+
 class CredentialStore {
   constructor(private storage: IWalletStorage) {}
 
   private buildKey(id: string) {
-    return `credential:${id}`;
+    return `${KEY_PREFIX}${id}`;
   }
 
   async saveCredential({
@@ -20,10 +21,14 @@ class CredentialStore {
     credential: string;
     format: Format;
   }): Promise<void> {
-    await this.storage.setItem(
-      this.buildKey(uuidv4()),
-      JSON.stringify({ credential, format }),
-    );
+    try {
+      await this.storage.setItem(
+        this.buildKey(this.storage.generateUUID()),
+        JSON.stringify({ credential, format }),
+      );
+    } catch (error) {
+      throw new Error(`Failed to save credential: ${(error as Error).message}`);
+    }
   }
 
   async getCredentialById(id: string): Promise<string | null> {
@@ -37,7 +42,7 @@ class CredentialStore {
 
   async listCredentials(query?: rawDCQL): Promise<string[]> {
     const keys = (await this.storage.keys?.()) || [];
-    const credentialKeys = keys.filter((k) => k.startsWith('credential:'));
+    const credentialKeys = keys.filter((k) => k.startsWith(KEY_PREFIX));
 
     const rawCredentials: Record<string, unknown>[] = [];
 
@@ -72,6 +77,10 @@ class CredentialStore {
     }
 
     return result.matchedCredentials.map((m) => JSON.stringify(m.credential));
+  }
+
+  clear() {
+    this.storage.clear?.();
   }
 }
 
