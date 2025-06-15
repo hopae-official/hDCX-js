@@ -21,7 +21,11 @@
     "test:browser": "vitest run ./src/test/*.spec.ts --environment jsdom",
     "test:cov": "vitest run --coverage"
   },
-  "keywords": ["sd-jwt", "vcdm", "jwt"],
+  "keywords": [
+    "sd-jwt",
+    "vcdm",
+    "jwt"
+  ],
   "author": "Hopae Inc. <developers@hopae.com>",
   "license": "Apache-2.0",
   "engines": {
@@ -46,29 +50,34 @@
     "vitest": "^1.2.2"
   },
   "tsup": {
-    "entry": ["./src/index.ts"],
+    "entry": [
+      "./src/index.ts"
+    ],
     "sourceMap": true,
     "splitting": false,
     "clean": true,
     "dts": true,
-    "format": ["cjs", "esm"]
+    "format": [
+      "cjs",
+      "esm"
+    ]
   },
   "dependencies": {
     "@noble/curves": "^1.9.2",
     "@noble/hashes": "^1.8.0",
+    "@sd-jwt/core": "^0.10.0",
     "@sd-jwt/decode": "^0.10.0",
     "@sd-jwt/hash": "^0.10.0",
-    "@sd-jwt/core": "^0.10.0",
     "@sd-jwt/present": "^0.10.0",
     "@sd-jwt/types": "^0.10.0",
     "@sd-jwt/utils": "^0.10.0",
+    "@vdcs/dcql": "^0.1.8",
     "@vdcs/jwt": "^0.1.8",
     "@vdcs/oid4vci": "^0.1.8",
     "@vdcs/oid4vci-client": "^0.1.8",
     "@vdcs/oid4vp-client": "^0.1.8",
-    "@vdcs/dcql": "^0.1.8",
-    "uuid": "^11.1.0",
-    "@sd-jwt/decode": "^0.10.0",
-    "expo-secure-store": "^14.2.3"
+    "expo-crypto": "^14.1.5",
+    "expo-secure-store": "^14.2.3",
+    "uuid": "^11.1.0"
   }
 }

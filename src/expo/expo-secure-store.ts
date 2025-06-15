@@ -16,9 +16,10 @@ class ExpoSecureStore {
       if (key !== KEY_INDEX) {
         await this.addKeyToIndex(key);
       }
-    } catch (error) {
-      console.error('[ExpoSecureStore] Error in setItem:', error, key, value);
-      throw error;
+    } catch (e) {
+      throw new Error(
+        `Failed to set item: ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
@@ -42,16 +43,16 @@ class ExpoSecureStore {
    */
   async keys() {
     try {
-      console.log('[ExpoSecureStore] Fetching stored keys from:', KEY_INDEX);
       const raw = await SecureStore.getItemAsync(KEY_INDEX);
 
       if (!raw) return [];
 
       const keys = JSON.parse(raw);
       return keys;
-    } catch (error) {
-      console.error('[ExpoSecureStore] Error accessing secure storage:', error);
-      throw new Error(`Failed to retrieve keys: ${(error as Error).message}`);
+    } catch (e) {
+      throw new Error(
+        `Failed to retrieve keys: ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
@@ -68,12 +69,6 @@ class ExpoSecureStore {
         await SecureStore.setItemAsync(KEY_INDEX, JSON.stringify(keys));
       }
     } catch (error) {
-      console.error(
-        '[ExpoSecureStore] Error in addKeyToIndex:',
-        error,
-        'key:',
-        key,
-      );
       throw new Error(
         `Failed to add key to index: ${(error as Error).message}`,
       );

@@ -59,9 +59,10 @@ class CredentialStore {
 
         return id;
       }
-    } catch (error) {
-      console.error('Credential 저장 실패:', error);
-      throw new Error(`Failed to save credential: ${(error as Error).message}`);
+    } catch (e) {
+      throw new Error(
+        `Failed to save credential: ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
@@ -80,17 +81,17 @@ class CredentialStore {
         const chunk = await this.storage.getItem(chunkKey);
 
         if (!chunk) {
-          throw new Error(`청크를 찾을 수 없습니다: ${chunkKey}`);
+          throw new Error(`Failed to load chunk: ${chunkKey}`);
         }
 
         reconstructedString += chunk;
-        console.log(`청크 ${i + 1}/${totalChunks} 복원 완료`);
       }
 
       return reconstructedString;
-    } catch (error) {
-      console.error('Credential 복원 실패:', error);
-      throw new Error(`Failed to load credential: ${(error as Error).message}`);
+    } catch (e) {
+      throw new Error(
+        `Failed to load credential:  ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
@@ -108,10 +109,9 @@ class CredentialStore {
       }
 
       await this.storage.removeItem(this.buildKey(id));
-    } catch (error) {
-      console.error('Credential 삭제 실패:', error);
+    } catch (e) {
       throw new Error(
-        `Failed to delete credential: ${(error as Error).message}`,
+        `Failed to delete credential: ${e instanceof Error ? e.message : String(e)}`,
       );
     }
   }
@@ -129,13 +129,12 @@ class CredentialStore {
         const metadata = JSON.parse(metadataStr);
         const { id, totalChunks } = metadata;
 
-        // 청크들을 순서대로 조회하여 합치기
         let reconstructedString = '';
         for (let i = 0; i < totalChunks; i++) {
           const chunkKey = this.buildChunkKey(id, i);
           const chunk = await this.storage.getItem(chunkKey);
 
-          if (!chunk) throw new Error(`청크를 찾을 수 없습니다: ${chunkKey}`);
+          if (!chunk) throw new Error(`Failed to load chunk: ${chunkKey}`);
           reconstructedString += chunk;
         }
 
@@ -152,8 +151,10 @@ class CredentialStore {
           throw new Error('Unsupported format');
         }
       } catch (e) {
-        console.error('Failed to parse credential:', e);
-        continue;
+        // @Todo: Handle partial success on v0.2
+        throw new Error(
+          `Failed to parse credential: ${e instanceof Error ? e.message : String(e)}`,
+        );
       }
     }
 
