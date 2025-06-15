@@ -1,16 +1,26 @@
 import * as SecureStore from 'expo-secure-store';
+import * as Crypto from 'expo-crypto';
 
 const KEY_INDEX = 'credential_keys';
 
-class ExpoSecureStore implements IWalletStorage {
+class ExpoSecureStore {
   async getItem(key: string) {
     const result = await SecureStore.getItemAsync(key);
     return result ?? null;
   }
 
   async setItem(key: string, value: string) {
-    await SecureStore.setItemAsync(key, value);
-    if (key !== KEY_INDEX) await this.addKeyToIndex(key);
+    try {
+      await SecureStore.setItemAsync(key, value);
+
+      if (key !== KEY_INDEX) {
+        await this.addKeyToIndex(key);
+      }
+    } catch (e) {
+      throw new Error(
+        `Failed to set item: ${e instanceof Error ? e.message : String(e)}`,
+      );
+    }
   }
 
   async removeItem(key: string) {
@@ -32,15 +42,36 @@ class ExpoSecureStore implements IWalletStorage {
    * a dedicated key named KEY_INDEX is used to track all stored keys manually.
    */
   async keys() {
-    const raw = await SecureStore.getItemAsync(KEY_INDEX);
-    return raw ? JSON.parse(raw) : [];
+    try {
+      const raw = await SecureStore.getItemAsync(KEY_INDEX);
+
+      if (!raw) return [];
+
+      const keys = JSON.parse(raw);
+      return keys;
+    } catch (e) {
+      throw new Error(
+        `Failed to retrieve keys: ${e instanceof Error ? e.message : String(e)}`,
+      );
+    }
   }
 
   private async addKeyToIndex(key: string): Promise<void> {
-    const keys = await this.keys();
-    if (!keys.includes(key)) {
-      keys.push(key);
-      await SecureStore.setItemAsync(KEY_INDEX, JSON.stringify(keys));
+    try {
+      const keys = await this.keys();
+
+      if (!Array.isArray(keys)) {
+        throw new Error('Keys must be an array');
+      }
+
+      if (!keys.includes(key)) {
+        keys.push(key);
+        await SecureStore.setItemAsync(KEY_INDEX, JSON.stringify(keys));
+      }
+    } catch (error) {
+      throw new Error(
+        `Failed to add key to index: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -49,15 +80,10 @@ class ExpoSecureStore implements IWalletStorage {
     const updated = keys.filter((k: string) => k !== key);
     await SecureStore.setItemAsync(KEY_INDEX, JSON.stringify(updated));
   }
+
+  generateUUID() {
+    return Crypto.randomUUID();
+  }
 }
 
 export { ExpoSecureStore };
-
-// @Todo: Types will be moved to a separate package after v0.1
-interface IWalletStorage {
-  getItem(key: string): Promise<string | null>;
-  setItem(key: string, value: string): Promise<void>;
-  removeItem(key: string): Promise<void>;
-  clear(): Promise<void>;
-  keys(): Promise<string[]>;
-}

@@ -47,6 +47,9 @@ importers:
       '@vdcs/oid4vp-client':
         specifier: ^0.1.8
         version: 0.1.8
+      expo-crypto:
+        specifier: ^14.1.5
+        version: 14.1.5(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))
       expo-secure-store:
         specifier: ^14.2.3
         version: 14.2.3(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))
@@ -2208,6 +2211,11 @@ packages:
     peerDependencies:
       expo: '*'
       react-native: '*'
+
+  expo-crypto@14.1.5:
+    resolution: {integrity: sha512-ZXJoUMoUeiMNEoSD4itItFFz3cKrit6YJ/BR0hjuwNC+NczbV9rorvhvmeJmrU9O2cFQHhJQQR1fjQnt45Vu4Q==}
+    peerDependencies:
+      expo: '*'
 
   expo-file-system@18.1.10:
     resolution: {integrity: sha512-SyaWg+HitScLuyEeSG9gMSDT0hIxbM9jiZjSBP9l9zMnwZjmQwsusE6+7qGiddxJzdOhTP4YGUfvEzeeS0YL3Q==}
@@ -6502,6 +6510,11 @@ snapshots:
       react-native: 0.79.3(@babel/core@7.27.4)(react@19.1.0)
     transitivePeerDependencies:
       - supports-color
+
+  expo-crypto@14.1.5(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0)):
+    dependencies:
+      base64-js: 1.5.1
+      expo: 53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0)
 
   expo-file-system@18.1.10(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0)):
     dependencies:
