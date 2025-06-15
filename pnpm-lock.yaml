@@ -14,6 +14,9 @@ importers:
       '@noble/hashes':
         specifier: ^1.8.0
         version: 1.8.0
+      '@sd-jwt/core':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@sd-jwt/decode':
         specifier: ^0.10.0
         version: 0.10.0
@@ -30,17 +33,20 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
       '@vdcs/dcql':
-        specifier: ^0.1.4
-        version: 0.1.4
+        specifier: ^0.1.8
+        version: 0.1.8
       '@vdcs/jwt':
-        specifier: ^0.1.4
-        version: 0.1.4
+        specifier: ^0.1.8
+        version: 0.1.8
       '@vdcs/oid4vci':
-        specifier: ^0.1.4
-        version: 0.1.4
+        specifier: ^0.1.8
+        version: 0.1.8
       '@vdcs/oid4vci-client':
-        specifier: ^0.1.4
-        version: 0.1.4
+        specifier: ^0.1.8
+        version: 0.1.8
+      '@vdcs/oid4vp-client':
+        specifier: ^0.1.8
+        version: 0.1.8
       expo-secure-store:
         specifier: ^14.2.3
         version: 14.2.3(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))
@@ -1354,6 +1360,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@sd-jwt/core@0.10.0':
+    resolution: {integrity: sha512-EuFsIHP76fwNi97dGcz2jdEenHL/AkDGcqrEA00k82Uw0HP/hvbAfB+yyPxYrd3dVaxe5PWSKvDkgDK6kKk+6Q==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/decode@0.10.0':
     resolution: {integrity: sha512-djNWMWpF1kUVh1fM/lRrmoQtTaJy8J0mS0bu96XPL5Jea5ov4klxOtSvuYmPFFcqLpxyrLOIwcbqmVQ20Mdzpg==}
     engines: {node: '>=18'}
@@ -1502,20 +1512,24 @@ packages:
     peerDependencies:
       '@urql/core': ^5.0.0
 
-  '@vdcs/dcql@0.1.4':
-    resolution: {integrity: sha512-D96bR7ArNRtuBT1jwlzNAsj8+QIvUfOzWB5eztYXrgC4UW1V5Hry2thw53X/eMRo8TJcz3e3LKG1Oujcdbd5iw==}
+  '@vdcs/dcql@0.1.8':
+    resolution: {integrity: sha512-x2cTXFc0t61oC3V9BxYFYcSXJh/EwyiOMO4ycsp925MkAEoYph/4FvavqXoTc+l/JZWRsXP+B43siwk6QKQ57Q==}
     engines: {node: '>=16'}
 
-  '@vdcs/jwt@0.1.4':
-    resolution: {integrity: sha512-xRzTturDU6Aj7isotiBuuGwoubsXkJ3ouorU+h7cCWwTpEjymZR9cH1xQbSpTvaZ7UuYJCKLZ+aTwvcDjy6G3Q==}
+  '@vdcs/jwt@0.1.8':
+    resolution: {integrity: sha512-Ewwxz+Zc4Wy+rOf92hZW7pa5YPomY8waX+MMZwq1fpmFHf8Z/jrzNLDhzHGP+ZtQZ+V74yo+VnFkAGgGuC96Kg==}
     engines: {node: '>=16'}
 
-  '@vdcs/oid4vci-client@0.1.4':
-    resolution: {integrity: sha512-zvMffmETeLawNZGyOarahtT2lMY6jlOH3397VcRR1dyZBWCfD622yuvAXedG4IG2mi/NeGVw0XBf/41Yv5J1qw==}
+  '@vdcs/oid4vci-client@0.1.8':
+    resolution: {integrity: sha512-NZ1V5zBcDy0YUryyhORuItIyPljIIWNVtGixnSNES0GOZMZ2+Rnj/D+bb3q5aw0fhQ8+DkKdEbpnOyeIPmdDww==}
     engines: {node: '>=16'}
 
-  '@vdcs/oid4vci@0.1.4':
-    resolution: {integrity: sha512-Y/cWIuFtlsX2wCDadZI7/syNeREh51Vsr1NcMB97Y7uXgthB2AuG3o2ppQZ75eChKBUfo+HZ1YGe84reGYg1vw==}
+  '@vdcs/oid4vci@0.1.8':
+    resolution: {integrity: sha512-Nr1RAr7DVK5D3eSNjWbrRRPXQ9JRF2ovoRRwAGULyp6us1N03l2qgxnf78WALdMkphmyeZyjH1d1EU5s6L4Yzw==}
+    engines: {node: '>=16'}
+
+  '@vdcs/oid4vp-client@0.1.8':
+    resolution: {integrity: sha512-Hu48C6ZoHNukZfKDnOtEkr7abrp+Y59TDQdntmTGPIcQBMPNGRTvLqI8zbWLSkIDdVtKvukoZEtZ72znvpOblQ==}
     engines: {node: '>=16'}
 
   '@vitest/coverage-v8@1.6.1':
@@ -4102,10 +4116,10 @@ snapshots:
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-module-transforms': 7.27.3(@babel/core@7.27.4)
       '@babel/helpers': 7.27.6
-      '@babel/parser': 7.27.4
+      '@babel/parser': 7.27.5
       '@babel/template': 7.27.2
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       convert-source-map: 2.0.0
       debug: 4.4.1
       gensync: 1.0.0-beta.2
@@ -4117,14 +4131,14 @@ snapshots:
   '@babel/generator@7.27.5':
     dependencies:
       '@babel/parser': 7.27.5
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 3.1.0
 
   '@babel/helper-annotate-as-pure@7.27.3':
     dependencies:
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
 
   '@babel/helper-compilation-targets@7.27.2':
     dependencies:
@@ -4168,14 +4182,14 @@ snapshots:
   '@babel/helper-member-expression-to-functions@7.27.1':
     dependencies:
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-module-imports@7.27.1':
     dependencies:
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
     transitivePeerDependencies:
       - supports-color
 
@@ -4190,7 +4204,7 @@ snapshots:
 
   '@babel/helper-optimise-call-expression@7.27.1':
     dependencies:
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
 
   '@babel/helper-plugin-utils@7.27.1': {}
 
@@ -4215,7 +4229,7 @@ snapshots:
   '@babel/helper-skip-transparent-expression-wrappers@7.27.1':
     dependencies:
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
     transitivePeerDependencies:
       - supports-color
 
@@ -4229,7 +4243,7 @@ snapshots:
     dependencies:
       '@babel/template': 7.27.2
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
     transitivePeerDependencies:
       - supports-color
 
@@ -4251,7 +4265,7 @@ snapshots:
 
   '@babel/parser@7.27.5':
     dependencies:
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
 
   '@babel/plugin-proposal-decorators@7.27.1(@babel/core@7.27.4)':
     dependencies:
@@ -4565,7 +4579,7 @@ snapshots:
       '@babel/helper-module-imports': 7.27.1
       '@babel/helper-plugin-utils': 7.27.1
       '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.27.4)
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
     transitivePeerDependencies:
       - supports-color
 
@@ -4655,16 +4669,16 @@ snapshots:
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/parser': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/parser': 7.27.5
+      '@babel/types': 7.27.6
 
   '@babel/traverse@7.27.4':
     dependencies:
       '@babel/code-frame': 7.27.1
       '@babel/generator': 7.27.5
-      '@babel/parser': 7.27.4
+      '@babel/parser': 7.27.5
       '@babel/template': 7.27.2
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       debug: 4.4.1
       globals: 11.12.0
     transitivePeerDependencies:
@@ -5076,8 +5090,8 @@ snapshots:
     dependencies:
       '@babel/core': 7.27.4
       '@babel/generator': 7.27.5
-      '@babel/parser': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/parser': 7.27.5
+      '@babel/types': 7.27.6
       '@expo/config': 11.0.10
       '@expo/env': 1.0.5
       '@expo/json-file': 9.1.4
@@ -5475,6 +5489,13 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
+  '@sd-jwt/core@0.10.0':
+    dependencies:
+      '@sd-jwt/decode': 0.10.0
+      '@sd-jwt/present': 0.10.0
+      '@sd-jwt/types': 0.10.0
+      '@sd-jwt/utils': 0.10.0
+
   '@sd-jwt/decode@0.10.0':
     dependencies:
       '@sd-jwt/types': 0.10.0
@@ -5518,24 +5539,24 @@ snapshots:
 
   '@types/babel__core@7.20.5':
     dependencies:
-      '@babel/parser': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/parser': 7.27.5
+      '@babel/types': 7.27.6
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.20.7
 
   '@types/babel__generator@7.27.0':
     dependencies:
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
 
   '@types/babel__template@7.4.4':
     dependencies:
-      '@babel/parser': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/parser': 7.27.5
+      '@babel/types': 7.27.6
 
   '@types/babel__traverse@7.20.7':
     dependencies:
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
 
   '@types/estree@1.0.7': {}
 
@@ -5671,24 +5692,32 @@ snapshots:
       '@urql/core': 5.1.1
       wonka: 6.3.5
 
-  '@vdcs/dcql@0.1.4': {}
+  '@vdcs/dcql@0.1.8': {}
 
-  '@vdcs/jwt@0.1.4':
+  '@vdcs/jwt@0.1.8':
     dependencies:
       '@noble/curves': 1.9.2
       '@sd-jwt/hash': 0.10.0
       '@sd-jwt/utils': 0.10.0
       js-base64: 3.7.7
 
-  '@vdcs/oid4vci-client@0.1.4':
+  '@vdcs/oid4vci-client@0.1.8':
     dependencies:
-      '@vdcs/jwt': 0.1.4
-      '@vdcs/oid4vci': 0.1.4
+      '@vdcs/jwt': 0.1.8
+      '@vdcs/oid4vci': 0.1.8
       axios: 1.9.0
     transitivePeerDependencies:
       - debug
 
-  '@vdcs/oid4vci@0.1.4': {}
+  '@vdcs/oid4vci@0.1.8': {}
+
+  '@vdcs/oid4vp-client@0.1.8':
+    dependencies:
+      '@vdcs/dcql': 0.1.8
+      '@vdcs/jwt': 0.1.8
+      axios: 1.9.0
+    transitivePeerDependencies:
+      - debug
 
   '@vitest/coverage-v8@1.6.1(vitest@1.6.1(@types/node@20.17.57)(jsdom@24.1.3)(lightningcss@1.27.0)(terser@5.42.0))':
     dependencies:
@@ -5851,7 +5880,7 @@ snapshots:
   babel-plugin-jest-hoist@29.6.3:
     dependencies:
       '@babel/template': 7.27.2
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       '@types/babel__core': 7.20.5
       '@types/babel__traverse': 7.20.7
 
@@ -6846,7 +6875,7 @@ snapshots:
   istanbul-lib-instrument@5.2.1:
     dependencies:
       '@babel/core': 7.27.4
-      '@babel/parser': 7.27.4
+      '@babel/parser': 7.27.5
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
       semver: 6.3.1
@@ -7232,7 +7261,7 @@ snapshots:
     dependencies:
       '@babel/traverse': 7.27.4
       '@babel/traverse--for-generate-function-map': '@babel/traverse@7.27.4'
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
       metro-symbolicate: 0.82.4
@@ -7269,8 +7298,8 @@ snapshots:
     dependencies:
       '@babel/core': 7.27.4
       '@babel/generator': 7.27.5
-      '@babel/parser': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/parser': 7.27.5
+      '@babel/types': 7.27.6
       flow-enums-runtime: 0.0.6
       metro: 0.82.4
       metro-babel-transformer: 0.82.4
@@ -7290,10 +7319,10 @@ snapshots:
       '@babel/code-frame': 7.27.1
       '@babel/core': 7.27.4
       '@babel/generator': 7.27.5
-      '@babel/parser': 7.27.4
+      '@babel/parser': 7.27.5
       '@babel/template': 7.27.2
       '@babel/traverse': 7.27.4
-      '@babel/types': 7.27.3
+      '@babel/types': 7.27.6
       accepts: 1.3.8
       chalk: 4.1.2
       ci-info: 2.0.0
