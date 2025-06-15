@@ -76,7 +76,7 @@ class WalletSDK {
     );
 
     const client = new Oid4VpClient(requestObject);
-    const result = await client.sendPresenation({ 0: presentation });
+    const result = await client.sendPresentation({ 0: presentation });
     return result;
   }
 }
