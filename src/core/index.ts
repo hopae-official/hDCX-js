@@ -11,6 +11,7 @@ import { Oid4VpClient, type RequestObject } from '@vdcs/oid4vp-client';
 import { P256, normalizePrivateKey } from '@vdcs/jwt';
 import { sha256 } from '@sd-jwt/hash';
 import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
+import { Format, rawDCQL } from '../types/credential';
 
 class WalletSDK {
   credentialStore: CredentialStore;
@@ -78,6 +79,20 @@ class WalletSDK {
     const client = new Oid4VpClient(requestObject);
     const result = await client.sendPresentation({ 0: presentation });
     return result;
+  }
+
+  async save({
+    credential,
+    format,
+  }: {
+    credential: string;
+    format: Format;
+  }): Promise<string | void> {
+    return this.credentialStore.saveCredential({ credential, format });
+  }
+
+  async selectCredentials(query?: rawDCQL): Promise<string> {
+    return this.credentialStore.listCredentials(query);
   }
 }
 

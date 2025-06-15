@@ -56,9 +56,9 @@ class CredentialStore {
 
         const chunkKey = this.buildChunkKey(id, i);
         await this.storage.setItem(chunkKey, chunk);
-
-        return id;
       }
+
+      return id;
     } catch (e) {
       throw new Error(
         `Failed to save credential: ${e instanceof Error ? e.message : String(e)}`,
