@@ -32,7 +32,7 @@ class CredentialStore {
   }: {
     credential: string;
     format: Format;
-  }): Promise<void> {
+  }): Promise<string | void> {
     try {
       const id = this.storage.generateUUID();
       const jsonString = JSON.stringify({ credential, format });
@@ -56,6 +56,8 @@ class CredentialStore {
 
         const chunkKey = this.buildChunkKey(id, i);
         await this.storage.setItem(chunkKey, chunk);
+
+        return id;
       }
     } catch (error) {
       console.error('Credential 저장 실패:', error);
