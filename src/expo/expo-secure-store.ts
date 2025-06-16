@@ -2,16 +2,63 @@ import * as SecureStore from 'expo-secure-store';
 import * as Crypto from 'expo-crypto';
 
 const KEY_INDEX = 'credential_keys';
+const CHUNK_SIZE = 1950; // under 2KB
+const CHUNK_PREFIX = 'chunk_';
 
 class ExpoSecureStore {
   async getItem(key: string) {
-    const result = await SecureStore.getItemAsync(key);
-    return result ?? null;
+    try {
+      const metadataStr = await SecureStore.getItemAsync(`${key}_meta`);
+
+      if (!metadataStr) {
+        const value = await SecureStore.getItemAsync(key);
+        return value;
+      }
+
+      const metadata = JSON.parse(metadataStr);
+      const { totalChunks } = metadata;
+
+      let reconstructedString = '';
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = await SecureStore.getItemAsync(
+          `${CHUNK_PREFIX}${key}_${i}`,
+        );
+        if (!chunk) {
+          throw new Error(`Missing chunk ${i} for key ${key}`);
+        }
+        reconstructedString += chunk;
+      }
+
+      return reconstructedString;
+    } catch (e) {
+      throw new Error(
+        `Failed to get item: ${e instanceof Error ? e.message : String(e)}`,
+      );
+    }
   }
 
   async setItem(key: string, value: string) {
     try {
-      await SecureStore.setItemAsync(key, value);
+      if (value.length <= CHUNK_SIZE) {
+        await SecureStore.setItemAsync(key, value);
+      } else {
+        const totalSize = value.length;
+        const totalChunks = Math.ceil(totalSize / CHUNK_SIZE);
+
+        const metadata = {
+          totalChunks,
+          totalSize,
+        };
+
+        await SecureStore.setItemAsync(`${key}_meta`, JSON.stringify(metadata));
+
+        for (let i = 0; i < totalChunks; i++) {
+          const start = i * CHUNK_SIZE;
+          const end = Math.min(start + CHUNK_SIZE, totalSize);
+          const chunk = value.slice(start, end);
+          await SecureStore.setItemAsync(`${CHUNK_PREFIX}${key}_${i}`, chunk);
+        }
+      }
 
       if (key !== KEY_INDEX) {
         await this.addKeyToIndex(key);
