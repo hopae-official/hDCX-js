@@ -11,8 +11,8 @@ _Effortless credential handling. Fully standards-compliant._
 
 | eIDAS 2.0  | W3C VCDM                    | SD-JWT VC   | OIDC4VCI    | OIDC4VP     | ISO/IEC 18013   | Token Status List |
 | ---------- | --------------------------- | ----------- | ----------- | ----------- | --------------- | ----------------- |
-| ARF 2.0 ✅ | VCDM 2.0 ✅/ 1.4 ✅/ 1.1 ✅ | draft 09 ✅ | draft 15 ✅ | draft 28 ✅ | Part 5 / Part 7 | draft 11 ✅      |
- 
+| ARF 2.0 ✅ | VCDM 2.0 ✅/ 1.4 ✅/ 1.1 ✅ | draft 09 ✅ | draft 15 ✅ | draft 28 ✅ | Part 5 / Part 7 | draft 11 ✅       |
+
 <!-- View full documentation on [here]() -->
 
 ### Supported Platforms
@@ -32,7 +32,7 @@ _Effortless credential handling. Fully standards-compliant._
 const wallet = new Wallet();
 ```
 
-### Recieve and save credentials
+### Receive and save credentials
 
 ```ts
 // You get the url or data for issued credentials
@@ -49,7 +49,7 @@ await wallet.save(credentials);
 
 ```ts
 // Load credentials with query
-const credentials = await wallet.load(["name", "age"]);
+const credentials = await wallet.load(['name', 'age']);
 
 // Present Credentials
 const presentation = await wallet.present(credentials);
@@ -59,9 +59,9 @@ const presentation = await wallet.present(credentials);
 
 ## Backwards compatibility
 
-| SD-JWT VC   | OIDC4VCI                 | OIDC4VP     | Token Status List |
-| ----------- | ------------------------ | ----------- | ----------------- |
-| draft 07    | Implementors draft v1    | draft 20    | draft 05          |
+| SD-JWT VC | OIDC4VCI              | OIDC4VP  | Token Status List |
+| --------- | --------------------- | -------- | ----------------- |
+| draft 07  | Implementors draft v1 | draft 20 | draft 05          |
 
 ## Interoperability
 
