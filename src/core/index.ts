@@ -12,6 +12,7 @@ import { P256, normalizePrivateKey } from '@vdcs/jwt';
 import { sha256 } from '@sd-jwt/hash';
 import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
 import { Format, rawDCQL } from '../types/credential';
+import { DCXException } from '../utils';
 
 class WalletSDK {
   credentialStore: CredentialStore;
@@ -31,19 +32,27 @@ class WalletSDK {
   }
 
   async receive(offerUri: string): Promise<CredentialResponse> {
-    const client = await Oid4VciClient.fromOfferUrl(offerUri);
-    const credential = await client.getCredential({
-      credential_configuration_id:
-        client.credentialOffer.credential_configuration_ids[0],
-      privateKey: this.jwk,
-    });
+    try {
+      const client = await Oid4VciClient.fromOfferUrl(offerUri);
+      const credential = await client.getCredential({
+        credential_configuration_id:
+          client.credentialOffer.credential_configuration_ids[0],
+        privateKey: this.jwk,
+      });
 
-    return credential;
+      return credential;
+    } catch (e) {
+      throw new DCXException('Failed to receive credential');
+    }
   }
 
   async load(requestUri: string): Promise<RequestObject> {
-    const client = await Oid4VpClient.fromRequestUri(requestUri);
-    return client.request;
+    try {
+      const client = await Oid4VpClient.fromRequestUri(requestUri);
+      return client.request;
+    } catch (e) {
+      throw new DCXException('Failed to load request object');
+    }
   }
 
   async present<T extends Record<string, unknown>>(
@@ -51,34 +60,38 @@ class WalletSDK {
     presentationFrame: PresentationFrame<T>,
     requestObject: RequestObject,
   ): Promise<string> {
-    const { client_id, nonce } = requestObject;
-    const sdJwtInstance = new SDJwtInstance({
-      hasher: hash,
-      kbSignAlg: 'ES256',
-      kbSigner: (data: string) => {
-        const privateKey = normalizePrivateKey(this.jwk);
-        const signingInputBytes = sha256(data);
-        const signature = P256.sign(signingInputBytes, privateKey);
-        const base64UrlSignature = uint8ArrayToBase64Url(signature);
-        return base64UrlSignature;
-      },
-    });
+    try {
+      const { client_id, nonce } = requestObject;
+      const sdJwtInstance = new SDJwtInstance({
+        hasher: hash,
+        kbSignAlg: 'ES256',
+        kbSigner: (data: string) => {
+          const privateKey = normalizePrivateKey(this.jwk);
+          const signingInputBytes = sha256(data);
+          const signature = P256.sign(signingInputBytes, privateKey);
+          const base64UrlSignature = uint8ArrayToBase64Url(signature);
+          return base64UrlSignature;
+        },
+      });
 
-    const kbPayload = {
-      iat: Math.floor(Date.now() / 1000),
-      aud: client_id,
-      nonce,
-    };
+      const kbPayload = {
+        iat: Math.floor(Date.now() / 1000),
+        aud: client_id,
+        nonce,
+      };
 
-    const presentation = await sdJwtInstance.present(
-      credential,
-      presentationFrame,
-      { kb: { payload: kbPayload } },
-    );
+      const presentation = await sdJwtInstance.present(
+        credential,
+        presentationFrame,
+        { kb: { payload: kbPayload } },
+      );
 
-    const client = new Oid4VpClient(requestObject);
-    const result = await client.sendPresentation({ 0: presentation });
-    return result;
+      const client = new Oid4VpClient(requestObject);
+      const result = await client.sendPresentation({ 0: presentation });
+      return result;
+    } catch (e) {
+      throw new DCXException('Failed to present credential');
+    }
   }
 
   async save({
