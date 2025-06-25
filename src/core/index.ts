@@ -42,7 +42,7 @@ class WalletSDK {
 
       return credential;
     } catch (e) {
-      throw new DCXException('Failed to receive credential');
+      throw new DCXException('Failed to receive credential', { cause: e });
     }
   }
 
