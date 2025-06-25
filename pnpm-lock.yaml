@@ -53,6 +53,9 @@ importers:
       expo-secure-store:
         specifier: ^14.2.3
         version: 14.2.3(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))
+      react-native-nfc-manager:
+        specifier: ^3.16.1
+        version: 3.16.1
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -3317,6 +3320,14 @@ packages:
     peerDependencies:
       react: '*'
       react-native: '*'
+
+  react-native-nfc-manager@3.16.1:
+    resolution: {integrity: sha512-rYhJSThAxAT4AVpZzZJc3X1jiTnZQlmrzk9DeeWLstUTXCoECt/75brLgn+EiXK+AfONnMnFdsSzIyruVWyIdw==}
+    peerDependencies:
+      '@expo/config-plugins': 8 || 9
+    peerDependenciesMeta:
+      '@expo/config-plugins':
+        optional: true
 
   react-native@0.79.3:
     resolution: {integrity: sha512-EzH1+9gzdyEo9zdP6u7Sh3Jtf5EOMwzy+TK65JysdlgAzfEVfq4mNeXcAZ6SmD+CW6M7ARJbvXLyTD0l2S5rpg==}
@@ -7695,6 +7706,8 @@ snapshots:
     dependencies:
       react: 19.1.0
       react-native: 0.79.3(@babel/core@7.27.4)(react@19.1.0)
+
+  react-native-nfc-manager@3.16.1: {}
 
   react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0):
     dependencies:

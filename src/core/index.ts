@@ -13,10 +13,12 @@ import { sha256 } from '@sd-jwt/hash';
 import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
 import { Format, rawDCQL } from '../types/credential';
 import { DCXException } from '../utils';
+import { NFCService } from '../nfc';
 
 class WalletSDK {
   credentialStore: CredentialStore;
   jwk: EcPrivateJwk;
+  nfcService: NFCService;
 
   constructor({
     storage,
@@ -29,6 +31,7 @@ class WalletSDK {
       storage || new InMemoryStorage(),
     );
     this.jwk = jwk;
+    this.nfcService = new NFCService();
   }
 
   async receive(offerUri: string): Promise<CredentialResponse> {

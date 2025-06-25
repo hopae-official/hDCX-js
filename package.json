@@ -70,5 +70,8 @@
     "expo-crypto": "^14.1.5",
     "expo-secure-store": "^14.2.3",
     "uuid": "^11.1.0"
+  },
+  "peerDependencies": {
+    "react-native-nfc-manager": "^3.16.1"
   }
 }
