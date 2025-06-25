@@ -1,6 +1,6 @@
 export class DCXException extends Error {
-  constructor(message: string) {
-    super(message);
+  constructor(message: string, options?: { cause?: unknown }) {
+    super(message, options);
     this.name = 'DCXException';
   }
 }

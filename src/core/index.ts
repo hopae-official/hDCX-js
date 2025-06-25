@@ -41,8 +41,8 @@ class WalletSDK {
       });
 
       return credential;
-    } catch (e) {
-      throw new DCXException('Failed to receive credential');
+    } catch (e: unknown) {
+      throw new DCXException('Failed to receive credential', { cause: e });
     }
   }
 
@@ -50,8 +50,8 @@ class WalletSDK {
     try {
       const client = await Oid4VpClient.fromRequestUri(requestUri);
       return client.request;
-    } catch (e) {
-      throw new DCXException('Failed to load request object');
+    } catch (e: unknown) {
+      throw new DCXException('Failed to load request object', { cause: e });
     }
   }
 
@@ -89,8 +89,8 @@ class WalletSDK {
       const client = new Oid4VpClient(requestObject);
       const result = await client.sendPresentation({ 0: presentation });
       return result;
-    } catch (e) {
-      throw new DCXException('Failed to present credential');
+    } catch (e: unknown) {
+      throw new DCXException('Failed to present credential', { cause: e });
     }
   }
 
