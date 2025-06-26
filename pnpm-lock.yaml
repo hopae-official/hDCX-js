@@ -53,6 +53,12 @@ importers:
       expo-secure-store:
         specifier: ^14.2.3
         version: 14.2.3(expo@53.0.11(@babel/core@7.27.4)(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0))
+      react-native-base64:
+        specifier: ^0.2.1
+        version: 0.2.1
+      react-native-ble-plx:
+        specifier: ^3.5.0
+        version: 3.5.0(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0)
       react-native-nfc-manager:
         specifier: ^3.16.1
         version: 3.16.1
@@ -66,6 +72,9 @@ importers:
       '@types/node':
         specifier: ^20.10.2
         version: 20.17.57
+      '@types/react-native-base64':
+        specifier: ^0.2.2
+        version: 0.2.2
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.0.0
         version: 8.33.0(@typescript-eslint/parser@8.33.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
@@ -1440,6 +1449,9 @@ packages:
 
   '@types/node@20.17.57':
     resolution: {integrity: sha512-f3T4y6VU4fVQDKVqJV4Uppy8c1p/sVvS3peyqxyWnzkqXFJLRU7Y1Bl7rMS1Qe9z0v4M6McY0Fp9yBsgHJUsWQ==}
+
+  '@types/react-native-base64@0.2.2':
+    resolution: {integrity: sha512-obr+/L9Jaxdr+xCVS/IQcYgreg5xtnui4Wqw/G1acBUtW2CnqVJj6lK6F/5F3+5d2oZEo5xDDLqy8GVn2HbEmw==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -3314,6 +3326,16 @@ packages:
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+
+  react-native-base64@0.2.1:
+    resolution: {integrity: sha512-eHgt/MA8y5ZF0aHfZ1aTPcIkDWxza9AaEk4GcpIX+ZYfZ04RcaNahO+527KR7J44/mD3efYfM23O2C1N44ByWA==}
+
+  react-native-ble-plx@3.5.0:
+    resolution: {integrity: sha512-PeSnRswHLwLRVMQkOfDaRICtrGmo94WGKhlSC09XmHlqX2EuYgH+vNJpGcLkd8lyiYpEJyf8wlFAdj9Akliwmw==}
+    engines: {node: '>= 18.0.0'}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   react-native-edge-to-edge@1.6.0:
     resolution: {integrity: sha512-2WCNdE3Qd6Fwg9+4BpbATUxCLcouF6YRY7K+J36KJ4l3y+tWN6XCqAC4DuoGblAAbb2sLkhEDp4FOlbOIot2Og==}
@@ -5597,6 +5619,8 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
+  '@types/react-native-base64@0.2.2': {}
+
   '@types/stack-utils@2.0.3': {}
 
   '@types/yargs-parser@21.0.3': {}
@@ -7701,6 +7725,13 @@ snapshots:
       - utf-8-validate
 
   react-is@18.3.1: {}
+
+  react-native-base64@0.2.1: {}
+
+  react-native-ble-plx@3.5.0(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-native: 0.79.3(@babel/core@7.27.4)(react@19.1.0)
 
   react-native-edge-to-edge@1.6.0(react-native@0.79.3(@babel/core@7.27.4)(react@19.1.0))(react@19.1.0):
     dependencies:

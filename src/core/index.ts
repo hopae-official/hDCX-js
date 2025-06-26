@@ -14,11 +14,13 @@ import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
 import { Format, rawDCQL } from '../types/credential';
 import { DCXException } from '../utils';
 import { NFCService } from '../nfc';
+import { BLEService } from '../ble';
 
 class WalletSDK {
   credentialStore: CredentialStore;
   jwk: EcPrivateJwk;
   nfcService: NFCService;
+  bleService: BLEService;
 
   constructor({
     storage,
@@ -32,6 +34,9 @@ class WalletSDK {
     );
     this.jwk = jwk;
     this.nfcService = new NFCService();
+
+    this.nfcService = new NFCService();
+    this.bleService = new BLEService(this);
   }
 
   async receive(offerUri: string): Promise<CredentialResponse> {
