@@ -1,4 +1,4 @@
-import { Device } from 'react-native-ble-plx';
+import { BleManager, Device } from 'react-native-ble-plx';
 import base64 from 'react-native-base64';
 import { DCXException } from '../utils';
 import { PresentationFrame } from '@sd-jwt/types';
@@ -9,22 +9,116 @@ import { sha256 } from '@sd-jwt/hash';
 import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
 import { WalletSDK } from '../core';
 import { hash } from '../hash';
-
-export type BleCallback = (error: Error | null, data: string | null) => void;
+import { BleCallback, BleConfig, ConnectionStatusCallback } from '../types/ble';
+import { Platform } from 'react-native';
 
 class BLEService {
-  private readonly SERVICE_UUID = '4FAFC201-1FB5-459E-8FCC-C5C9C331914B';
-  private readonly CHARACTERISTIC_UUID = 'BEB5483E-36E1-4688-B7F5-EA07361B26A8';
+  private readonly DEVICE_NAME = 'HDCXWallet';
   private readonly CHUNK_SIZE = 300;
+
+  private bleManager: BleManager;
   private chunkStore: { [key: string]: string[] } = {};
+  private connectedDevice: Device | null = null;
+  private connectionStatusCallback: ConnectionStatusCallback | null = null;
+  private scanTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private config: BleConfig | null = null;
+  private walletSDK: WalletSDK;
 
-  constructor(private readonly walletSDK: WalletSDK) {}
+  constructor(walletSDK: WalletSDK) {
+    this.bleManager = new BleManager();
+    this.walletSDK = walletSDK;
+  }
 
-  public monitorCharacteristic(device: Device, callback: BleCallback) {
+  public async checkPermissions(): Promise<boolean> {
+    if (Platform.OS === 'ios') {
+      const status = await this.bleManager.state();
+      return status === 'PoweredOn';
+    }
+    return true;
+  }
+
+  public async scanAndConnect(
+    config: BleConfig,
+    timeout: number = 10000,
+  ): Promise<void> {
+    this.config = config;
     try {
-      const subscription = device.monitorCharacteristicForService(
-        this.SERVICE_UUID,
-        this.CHARACTERISTIC_UUID,
+      const status = await this.bleManager.state();
+      if (status !== 'PoweredOn') {
+        throw new Error('Bluetooth is not powered on');
+      }
+
+      if (this.connectionStatusCallback) {
+        this.connectionStatusCallback('scanning');
+      }
+
+      this.bleManager.startDeviceScan(null, null, async (error, device) => {
+        if (error) {
+          this.stopScanning();
+          throw new DCXException('Failed to scan for device', { cause: error });
+        }
+
+        if (device?.localName === this.DEVICE_NAME && device.isConnectable) {
+          this.stopScanning();
+
+          try {
+            const connectedDevice = await device.connect();
+            const discoveredDevice =
+              await connectedDevice.discoverAllServicesAndCharacteristics();
+            this.connectedDevice = discoveredDevice;
+
+            if (this.connectionStatusCallback) {
+              this.connectionStatusCallback('connected', discoveredDevice);
+            }
+          } catch (error) {
+            if (this.connectionStatusCallback) {
+              this.connectionStatusCallback('disconnected');
+            }
+
+            throw new DCXException('Connection error', { cause: error });
+          }
+        }
+      });
+
+      this.scanTimeoutId = setTimeout(() => {
+        this.stopScanning();
+      }, timeout);
+    } catch (error) {
+      const typedError =
+        error instanceof Error ? error : new Error(String(error));
+      throw typedError;
+    }
+  }
+
+  private stopScanning(): void {
+    this.bleManager.stopDeviceScan();
+    if (this.scanTimeoutId) {
+      clearTimeout(this.scanTimeoutId);
+      this.scanTimeoutId = null;
+    }
+  }
+
+  public setConnectionStatusCallback(callback: ConnectionStatusCallback): void {
+    this.connectionStatusCallback = callback;
+  }
+
+  public isConnected(): boolean {
+    return this.connectedDevice !== null;
+  }
+
+  public monitorCharacteristic(callback: BleCallback) {
+    try {
+      if (!this.connectedDevice) {
+        throw new Error('No device connected');
+      }
+
+      if (!this.config) {
+        throw new Error('BLE configuration not set');
+      }
+
+      const subscription = this.connectedDevice.monitorCharacteristicForService(
+        this.config.serviceUUID,
+        this.config.characteristicUUID,
         (error, characteristic) => {
           if (error) {
             callback(error, null);
@@ -60,7 +154,10 @@ class BLEService {
               delete this.chunkStore[messageKey];
             }
           } catch (error) {
-            throw new DCXException('Failed to process data', { cause: error });
+            callback(error as Error, null);
+            throw new DCXException('Error processing data', {
+              cause: error,
+            });
           }
         },
       );
@@ -73,14 +170,18 @@ class BLEService {
     }
   }
 
-  public async sendData(device: Device, data: string): Promise<void> {
-    if (!device) {
+  public async sendData(data: string): Promise<void> {
+    if (!this.connectedDevice) {
       throw new DCXException('No device connected');
+    }
+
+    if (!this.config) {
+      throw new DCXException('BLE configuration not set');
     }
 
     try {
       const chunks = this.prepareDataChunks(data);
-      await this.sendChunks(device, chunks);
+      await this.sendChunks(chunks);
     } catch (error) {
       throw new DCXException('Failed to send data', { cause: error });
     }
@@ -123,7 +224,6 @@ class BLEService {
       );
 
       this.sendData(
-        device,
         JSON.stringify({
           type: 'vp_token',
           value: { 0: presentation },
@@ -140,7 +240,11 @@ class BLEService {
     return encodedData.match(new RegExp(`.{1,${this.CHUNK_SIZE}}`, 'g')) || [];
   }
 
-  private async sendChunks(device: Device, chunks: string[]): Promise<void> {
+  private async sendChunks(chunks: string[]): Promise<void> {
+    if (!this.config || !this.connectedDevice) {
+      throw new Error('BLE configuration or device not set');
+    }
+
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
       const isLastChunk = i === chunks.length - 1;
@@ -148,9 +252,9 @@ class BLEService {
       const encodedChunk = base64.encode(chunkWithMetadata);
 
       try {
-        await device.writeCharacteristicWithoutResponseForService(
-          this.SERVICE_UUID,
-          this.CHARACTERISTIC_UUID,
+        await this.connectedDevice.writeCharacteristicWithoutResponseForService(
+          this.config.serviceUUID,
+          this.config.characteristicUUID,
           encodedChunk,
         );
 
@@ -158,11 +262,27 @@ class BLEService {
           await new Promise((resolve) => setTimeout(resolve, 100));
         }
       } catch (writeError) {
-        throw new DCXException(`Failed to send chunk ${i + 1}`, {
-          cause: writeError,
-        });
+        throw new DCXException('Failed to send chunk', { cause: writeError });
       }
     }
+  }
+
+  public destroy(): void {
+    this.stopScanning();
+
+    if (this.connectedDevice) {
+      this.connectedDevice.cancelConnection();
+      this.connectedDevice = null;
+    }
+
+    if (this.connectionStatusCallback) {
+      this.connectionStatusCallback('disconnected');
+      this.connectionStatusCallback = null;
+    }
+
+    this.config = null;
+    this.chunkStore = {};
+    this.bleManager.destroy();
   }
 }
 

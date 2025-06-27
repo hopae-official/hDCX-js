@@ -35,7 +35,6 @@ class WalletSDK {
     this.jwk = jwk;
     this.nfcService = new NFCService();
 
-    this.nfcService = new NFCService();
     this.bleService = new BLEService(this);
   }
 
