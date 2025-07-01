@@ -223,7 +223,7 @@ class BLEService {
         { kb: { payload: kbPayload } },
       );
 
-      this.sendData(
+      await this.sendData(
         JSON.stringify({
           type: 'vp_token',
           value: { 0: presentation },
