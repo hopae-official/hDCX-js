@@ -11,16 +11,18 @@ import { Oid4VpClient, type RequestObject } from '@vdcs/oid4vp-client';
 import { P256, normalizePrivateKey } from '@vdcs/jwt';
 import { sha256 } from '@sd-jwt/hash';
 import { uint8ArrayToBase64Url } from '@sd-jwt/utils';
-import { Format, rawDCQL } from '../types/credential';
 import { DCXException } from '../utils';
 import { NFCService } from '../nfc';
 import { BLEService } from '../ble';
+import { SelectiveDisclosureService } from './selective-disclosure-service';
+import { Format, rawDCQL } from '../types';
 
 class WalletSDK {
   credentialStore: CredentialStore;
   jwk: EcPrivateJwk;
   nfcService: NFCService;
   bleService: BLEService;
+  sdService: SelectiveDisclosureService;
 
   constructor({
     storage,
@@ -34,8 +36,8 @@ class WalletSDK {
     );
     this.jwk = jwk;
     this.nfcService = new NFCService();
-
     this.bleService = new BLEService(this);
+    this.sdService = new SelectiveDisclosureService();
   }
 
   async receive(offerUri: string): Promise<CredentialResponse> {
