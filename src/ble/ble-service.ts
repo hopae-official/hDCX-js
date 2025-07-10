@@ -245,24 +245,41 @@ class BLEService {
       throw new Error('BLE configuration or device not set');
     }
 
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i];
-      const isLastChunk = i === chunks.length - 1;
-      const chunkWithMetadata = `${i}:${chunks.length}:${chunk}`;
-      const encodedChunk = base64.encode(chunkWithMetadata);
+    const maxConcurrent = 3;
+    const retryAttempts = 2;
+    const chunkDelay = 20;
 
-      try {
-        await this.connectedDevice.writeCharacteristicWithoutResponseForService(
-          this.config.serviceUUID,
-          this.config.characteristicUUID,
-          encodedChunk,
-        );
+    for (let i = 0; i < chunks.length; i += maxConcurrent) {
+      const batch = chunks.slice(i, i + maxConcurrent);
+      const promises = batch.map(async (chunk, batchIndex) => {
+        const chunkIndex = i + batchIndex;
+        const chunkWithMetadata = `${chunkIndex}:${chunks.length}:${chunk}`;
+        const encodedChunk = base64.encode(chunkWithMetadata);
 
-        if (!isLastChunk) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
+        let lastError: unknown;
+        for (let attempt = 0; attempt <= retryAttempts; attempt++) {
+          try {
+            await this.connectedDevice!.writeCharacteristicWithoutResponseForService(
+              this.config!.serviceUUID,
+              this.config!.characteristicUUID,
+              encodedChunk,
+            );
+            return;
+          } catch (error) {
+            lastError = error;
+            if (attempt < retryAttempts) {
+              await new Promise((resolve) => setTimeout(resolve, 50));
+            }
+          }
         }
-      } catch (writeError) {
-        throw new DCXException('Failed to send chunk', { cause: writeError });
+        throw new DCXException('Failed to send chunk after retries', {
+          cause: lastError,
+        });
+      });
+
+      await Promise.all(promises);
+      if (i + maxConcurrent < chunks.length) {
+        await new Promise((resolve) => setTimeout(resolve, chunkDelay));
       }
     }
   }
